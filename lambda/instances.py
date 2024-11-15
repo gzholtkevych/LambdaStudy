@@ -1,5 +1,4 @@
-from typing import Dict, Union, Set
-from typing_extensions import Self
+from . import Dict, Self, Union, Set
 
 
 class Var(str):

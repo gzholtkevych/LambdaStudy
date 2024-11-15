@@ -1,4 +1,4 @@
-from typing import Tuple, Set, Optional
+from. import Tuple, Optional
 from instances import Var, Term, Occurrence  
 
 

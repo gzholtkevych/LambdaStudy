@@ -1,5 +1,5 @@
-from instances import Var, Term, Occurrence
-from transformations import substitute, rename, get_fresh_variable
+from lambda.instances import Var, Term, Occurrence
+from lambda.transformations import substitute, rename, get_fresh_variable
 
 
 x, y, z = Var('x'), Var('y'), Var('z')
