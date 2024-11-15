@@ -1,5 +1,5 @@
 from. import Tuple, Optional
-from instances import Var, Term, Occurrence  
+from simulambda.instances import Var, Term, Occurrence  
 
 
 def substitute(t1: Term, x: Var, t2: Term) -> Term:
@@ -99,5 +99,48 @@ def get_fresh_variable(*ts: Tuple[Term, ...]) -> Var:
         ic += 1
 
 
-# def subterm(t: Term, occ: Occurrence) -> Optional[Term]:
-    
+def subterm(t: Term, occ: Occurrence) -> Optional[Term]:
+    if type(t) != Term or type(occ) != Occurrence:
+        raise TypeError("subterm() error! Bad type of argument(s)")
+    if not occ:
+        return t
+    if t.kind == "atom":
+        return None
+    if t.kind == "application":
+        return subterm(t[int(occ.head)], occ.tail)
+    # t.kind == "abstraction"
+    try:
+        if occ.head == "1":
+            print("head == 1")
+            return None
+        else:
+            print(f"head == 0; occ.tail = {occ.tail}")
+            return subterm(t[1], occ.tail)
+    except:
+        print(f"I am here! t = {t}; occ.head = {occ.head}; occ.tail = {occ.tail}")
+        return None
+
+
+def replace(t: Term, occ: Occurrence, t1: Term) -> Optional[Term]:
+    if (type(t) != Term or
+        type(occ) != Occurrence or
+        type(t1) != Term):
+        raise TypeError("replace() error! Bad type of argument(s)")
+    if not occ:
+        return t1
+    if t.kind == "atom":
+        return None
+    if t.kimd == "application":
+        if occ.head == "0":
+            tt = replace(t[0], occ.tail, t1)
+            return None if tt is None else Term.app(tt, t[1])
+        # occ.head == "1"
+        tt = replace(t[1], occ.tail, t1)
+        return None if tt is None else Term.app(t[0], tt)
+    # t.kimd == "aabstraction"
+    if occ.head == "1":
+        return None
+    # occ.head == "0"
+    tt = replace(t[1], occ.tail, t1)
+    return None if tt is None else Term.abs(t[0], tt)
+             

@@ -1,4 +1,4 @@
-from . import Dict, Self, Union, Set
+from . import Dict, Self, Union, Set, Optional
 
 
 class Var(str):
@@ -134,3 +134,16 @@ class Occurrence(str):
     
     def __str__(self)-> str:
         return f"@{super().__str__()}"
+    
+    @property
+    def head(self) -> Optional[str]:
+        if not self:
+            return None
+        return self[0]
+    
+    @property
+    def tail(self) -> Optional[Self]:
+        if not self:
+            return None
+        return Occurrence(self[1 :])
+    
